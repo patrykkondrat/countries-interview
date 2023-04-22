@@ -2,15 +2,12 @@ package org.patrykkondrat.countries.client;
 
 import lombok.RequiredArgsConstructor;
 import org.patrykkondrat.countries.model.Continent;
-import org.patrykkondrat.countries.model.Country;
 import org.springframework.graphql.client.HttpGraphQlClient;
 import org.springframework.stereotype.Component;
-import org.springframework.stereotype.Service;
 import org.springframework.web.reactive.function.client.WebClient;
 import reactor.core.publisher.Mono;
 
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
 @Component
@@ -23,21 +20,11 @@ public class GraphQLClient {
             .build();
 
     public Continent getCountriesFromContinent(String continentCode) {
-        Map<String, String> continents = availableContinents();
-        String continentName = "";
-        if (!continents.containsKey(continentCode) && !continents.containsValue(continentCode)) {
-            throw new IllegalArgumentException("Continent code is not valid");
-        }
-
-        if (continentCode.length() == 2) {
-            continentName = continents.get(continentCode);
-        } else {
-            continentName = continentCode;
-        }
+        String finalContinentCode = getValidCode(continentCode);
 
         String document = String.format("""
                 query Query {
-                  continent (name: "%s") {
+                  continent (code: "%s") {
                     name
                     code
                     countries {
@@ -45,7 +32,9 @@ public class GraphQLClient {
                       code
                     }
                   }
-                }""", continentName);
+                }""", finalContinentCode);
+
+        System.out.println(document);
 
         Mono<Continent> continent = graphQlClient
                 .document(document)
@@ -53,6 +42,24 @@ public class GraphQLClient {
                 .toEntity(Continent.class);
 
         return continent.block();
+    }
+    private String getValidCode(String continentCode) {
+        Map<String, String> continents = availableContinents();
+        String finalContinentCode = "";
+        if (!continents.containsKey(continentCode.toUpperCase()) && !continents.containsValue(continentCode)) {
+            throw new IllegalArgumentException("Continent code is not valid");
+        }
+
+        if (continentCode.length() == 2) {
+            finalContinentCode = continentCode.toUpperCase();
+        } else {
+            finalContinentCode = continents.entrySet().stream()
+                    .filter(entry -> continentCode.equals(entry.getValue()))
+                    .map(Map.Entry::getKey)
+                    .findFirst()
+                    .orElse(null);
+        }
+        return finalContinentCode;
     }
 
     public Map<String, String> availableContinents() {
