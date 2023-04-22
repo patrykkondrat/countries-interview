@@ -22,11 +22,22 @@ public class GraphQLClient {
             .url("https://countries.trevorblades.com/graphql")
             .build();
 
-    public Continent getCountriesFromContinent() {
+    public Continent getCountriesFromContinent(String continentCode) {
+        Map<String, String> continents = availableContinents();
+        String continentName = "";
+        if (!continents.containsKey(continentCode) && !continents.containsValue(continentCode)) {
+            throw new IllegalArgumentException("Continent code is not valid");
+        }
 
-        String document = """
+        if (continentCode.length() == 2) {
+            continentName = continents.get(continentCode);
+        } else {
+            continentName = continentCode;
+        }
+
+        String document = String.format("""
                 query Query {
-                  continent (code: "EU") {
+                  continent (name: "%s") {
                     name
                     code
                     countries {
@@ -34,7 +45,7 @@ public class GraphQLClient {
                       code
                     }
                   }
-                }""";
+                }""", continentName);
 
         Mono<Continent> continent = graphQlClient
                 .document(document)
