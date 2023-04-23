@@ -30,8 +30,10 @@ git clone https://github.com/patrykkondrat/countries-interview.git
 ```
 
 2. If you don't have docker, just install it.
-_You need to install maven to get an exacutable jar file to Dockerfile_
-
+_You need to install maven to get an executable jar file_
+```bash
+mvn clean install
+```
 3. Build a docker image
 ```bash
 docker build . -t countries
