@@ -12,19 +12,12 @@ import java.util.List;
 
 @JsonIgnoreProperties(ignoreUnknown = true)
 public record CountryDetails(
-        @JsonProperty("name.common")
         String name,
-        @JsonProperty("name.nativeName.*.official")
         String nativeName,
-        @JsonProperty("capital")
         String capital,
-        @JsonProperty("currencies.*.name")
         String currencies,
-        @JsonProperty("population")
         Long population,
-        @JsonProperty("subregion")
         String subregion,
-        @JsonProperty("languages.pol")
         String languages
 ) {
 

@@ -21,7 +21,8 @@ public class RestCountriesClient {
 
     @SneakyThrows
     public CountryDetails getCountryDetailsFromRest(String countryName) {
-        String uri = "https://restcountries.com/v3.1/name/" + countryName;
+        String finalCountryName = countryName.contains(" ") ? countryName.replaceAll(" ", "%20") : countryName;
+        String uri = "https://restcountries.com/v3.1/name/" + finalCountryName;
         ResponseEntity<String> response = restTemplate.getForEntity(new URI(uri), String.class);
         String responseBody = response.getBody();
         return parseResponseToCountryDetails(responseBody);
@@ -35,20 +36,13 @@ public class RestCountriesClient {
         JsonNode node = objectMapper.readTree(hope);
 
         String name = node.get("name").get("common").asText();
-        String nativeName = node.get("name").get("nativeName").elements().next().get("official").toString();
+        String nativeName = node.get("name").get("nativeName").elements().next().get("official").asText();
         String capital = node.get("capital").get(0).asText();
         Long population = node.get("population").longValue();
-        String currency = node.get("currencies").elements().next().get("name").toString();
+        String currency = node.get("currencies").elements().next().get("name").asText();
         String subregion = node.get("subregion").asText();
-        String languages = node.get("languages").elements().next().toString();
+        String languages = node.get("languages").elements().next().asText();
 
         return new CountryDetails(name, nativeName, capital, currency, population, subregion, languages);
     }
-
-    public static void main(String[] args) {
-        RestCountriesClient restCountriesClient = new RestCountriesClient();
-        CountryDetails country = restCountriesClient.getCountryDetailsFromRest("Spain");
-        System.out.println(country);
-    }
-
 }
