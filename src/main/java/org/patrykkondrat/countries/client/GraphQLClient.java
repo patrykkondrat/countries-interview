@@ -34,8 +34,6 @@ public class GraphQLClient {
                   }
                 }""", finalContinentCode);
 
-        System.out.println(document);
-
         Mono<Continent> continent = graphQlClient
                 .document(document)
                 .retrieve("continent")
@@ -67,6 +65,7 @@ public class GraphQLClient {
         continents.put("EU", "Europe");
         continents.put("NA", "North America");
         continents.put("SA", "South America");
+        continents.put("AN", "Antarctica");
         continents.put("AF", "Africa");
         continents.put("AS", "Asia");
         continents.put("OC", "Oceania");
