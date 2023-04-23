@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>Country Details</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
+    <link rel="stylesheet" href="style/index.css">
+    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
+</head>
+<body>
+<div class="container md-5 main">
+    <h1>Country Details</h1>
+    <div class="form-group">
+        <label for="continent">Continent</label>
+        <select class="form-control" id="continent">
+            <option value="EU">Europe</option>
+            <option value="NA">North America</option>
+            <option value="SA">South America</option>
+            <option value="AF">Africa</option>
+            <option value="AS">Asia</option>
+            <option value="OC">Oceania</option>
+            <option value="AN">Antarctica</option>
+        </select>
+    </div>
+    <div class="form-group">
+        <label for="num-countries">Number of Countries</label>
+        <input type="number" min="2" max="10" class="form-control" id="num-countries">
+    </div>
+    <button type="button" class="btn btn-primary" id="submit-btn">Losuj</button>
+    <div id="loading" class="d-none">
+        <div class="spinner-border text-primary" role="status">
+            <span class="sr-only">Loading...</span>
+        </div>
+    </div>
+    <table class="table mt-3 d-none" id="countries-table">
+        <thead>
+        <tr>
+            <th>Name</th>
+            <th>Native Name</th>
+            <th>Capital</th>
+            <th>Currency</th>
+            <th>Population</th>
+            <th>Subregion</th>
+            <th>Languages</th>
+        </tr>
+        </thead>
+        <tbody>
+        </tbody>
+    </table>
+</div>
+<script src="src/hello.js"></script>
+</body>
+</html>
