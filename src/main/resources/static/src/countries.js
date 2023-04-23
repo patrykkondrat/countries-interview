@@ -57,15 +57,13 @@ async function fetchCountries() {
             tbody.appendChild(tr);
         });
 
-
         table.classList.remove("d-none");
     } catch (error) {
         console.error(error);
         const table = document.getElementById("countries-table");
-        const tbody = table.getElementsByTagName("tbody")[0];
-        tbody.innerHTML = "";
         const errorDiv = document.getElementById("error");
         errorDiv.classList.remove("d-none");
+        table.classList.add("d-none");
     }
 
     loadingDiv.classList.add("d-none");
