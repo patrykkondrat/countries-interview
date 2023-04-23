@@ -35,14 +35,19 @@ public class RestCountriesClient {
         String hope = newJson.substring(1, newJson.length() - 1);
         JsonNode node = objectMapper.readTree(hope);
 
-        String name = node.get("name").get("common").asText();
-        String nativeName = node.get("name").get("nativeName").elements().next().get("official").asText();
-        String capital = node.get("capital").get(0).asText();
-        Long population = node.get("population").longValue();
-        String currency = node.get("currencies").elements().next().get("name").asText();
-        String subregion = node.get("subregion").asText();
-        String languages = node.get("languages").elements().next().asText();
+        try {
+            String name = node.path("name").path("common").asText();
+            String nativeName = node.path("name").path("nativeName").elements().next().path("official").asText();
+            String capital = node.path("capital").path(0).asText();
+            Long population = node.path("population").longValue();
+            String currency = node.path("currencies").elements().next().path("name").asText();
+            String subregion = node.path("subregion").asText();
+            String languages = node.path("languages").elements().next().asText();
 
-        return new CountryDetails(name, nativeName, capital, currency, population, subregion, languages);
+            return new CountryDetails(name, nativeName, capital, currency, population, subregion, languages);
+        } catch (Exception ex) {
+            System.out.println(ex.getMessage());
+        }
+        return null;
     }
 }
