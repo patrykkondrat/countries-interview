@@ -44,4 +44,11 @@ public class RestCountriesClient {
 
         return new CountryDetails(name, nativeName, capital, currency, population, subregion, languages);
     }
+
+    public static void main(String[] args) {
+        RestCountriesClient restCountriesClient = new RestCountriesClient();
+        CountryDetails country = restCountriesClient.getCountryDetailsFromRest("Spain");
+        System.out.println(country);
+    }
+
 }
