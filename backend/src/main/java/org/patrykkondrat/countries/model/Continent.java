@@ -13,7 +13,7 @@ public record Continent(
         @JsonProperty("countries") List<Country> countries
 ) {
     public List<Country> getRandomCountries(int numRandomCountries) {
-        if (numRandomCountries <= 2 || numRandomCountries >= 10) {
+        if (numRandomCountries < 2 || numRandomCountries > 10) {
             throw new IllegalArgumentException("Number of countries must be between 2 and 10");
         }
 
