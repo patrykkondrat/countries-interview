@@ -8,8 +8,11 @@ async function fetchCountries() {
     const numCountries = document.getElementById("num-countries").value;
     const url = `http://localhost:8080/countries/details/random?continent=${continent}&numRandom=${numCountries}`;
 
-    const loadingDiv = document.getElementById("loading");
+    const loadingDiv = document.getElementById("loading-overlay");
     loadingDiv.classList.remove("d-none");
+
+    const errorDiv = document.getElementById("error");
+    errorDiv.classList.add("d-none");
 
     try {
         const response = await fetch(url);
@@ -58,6 +61,11 @@ async function fetchCountries() {
         table.classList.remove("d-none");
     } catch (error) {
         console.error(error);
+        const table = document.getElementById("countries-table");
+        const tbody = table.getElementsByTagName("tbody")[0];
+        tbody.innerHTML = "";
+        const errorDiv = document.getElementById("error");
+        errorDiv.classList.remove("d-none");
     }
 
     loadingDiv.classList.add("d-none");

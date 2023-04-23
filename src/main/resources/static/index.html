@@ -28,7 +28,7 @@
         <input type="number" min="2" max="10" class="form-control" id="num-countries">
     </div>
     <button type="button" class="btn btn-primary" id="submit-btn">Losuj</button>
-    <div id="loading" class="d-none">
+    <div id="loading-overlay" class="d-none">
         <div class="spinner-border text-primary" role="status">
             <span class="sr-only">Loading...</span>
         </div>
@@ -48,6 +48,9 @@
         <tbody>
         </tbody>
     </table>
+</div>
+<div id="error" class="alert alert-danger d-none" role="alert">
+    Country not found.
 </div>
 <script src="src/hello.js"></script>
 </body>
